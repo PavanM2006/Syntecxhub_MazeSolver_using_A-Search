@@ -1,62 +1,156 @@
-# 🧠 A* Maze Solver with AI Search Visualization
+# A* Maze Solver — Progressive Exploration Visualizer
 
-A Python-based Artificial Intelligence project that demonstrates the **A\* (A-Star) search algorithm** by solving a dynamically generated maze and visually showing how the algorithm explores the maze before following the final path to the goal.
+A Python project that solves a randomly generated maze using the **A\* search algorithm** and visually animates the entire process — first showing every cell the algorithm explores, step by step, then tracing the final optimal path from start to goal.
 
-The project is designed as an educational and portfolio project to demonstrate fundamental **AI search, pathfinding, heuristics, graph traversal, and algorithm visualization** concepts.
-
----
-
-## 🚀 Project Overview
-
-The program generates a maze using the `pyamaze` library and uses the **A\* search algorithm** to find a path from a starting cell to a goal cell.
-
-Instead of displaying only the final solution, the project visualizes the A\* search process:
-
-1. The maze is generated dynamically.
-2. A\* starts from the starting cell.
-3. The algorithm evaluates available neighbouring cells.
-4. Explored/search cells are displayed.
-5. A\* uses the Manhattan distance heuristic to make decisions.
-6. The optimal path is reconstructed after reaching the goal.
-7. The blue A\* agent follows the final path using `pyamaze`'s built-in movement system.
-8. White footprints show the agent's movement.
-
-This makes the project useful for understanding **how A\* actually searches for a solution**.
+Built with [`pyamaze`](https://pypi.org/project/pyamaze/) for maze generation and rendering.
 
 ---
 
-## 🎯 Objectives
+## Features
 
-The main objectives of this project are:
-
-- Implement the A\* search algorithm from scratch.
-- Understand heuristic-based search.
-- Use Manhattan distance as an admissible heuristic for 4-directional movement.
-- Generate and solve dynamic mazes.
-- Visualize A\* exploration.
-- Visualize the final path.
-- Demonstrate `g(n)`, `h(n)` and `f(n)` values.
-- Measure algorithm execution time.
-- Demonstrate AI pathfinding in a visual and understandable way.
+- **A\* pathfinding** using a Manhattan-distance heuristic
+- **Priority-queue search** implemented with Python's `heapq`
+- **Progressive exploration animation** — cells light up in the exact order A* visits them
+- **Animated final path trace** once the goal is reached
+- **Detailed console logging** of every visited cell (`g`, `h`, `f` scores) and a final results summary
+- **Fully configurable** maze size, start/goal positions, and animation speed
+- Handles the **no-path-found** case gracefully
 
 ---
 
-## 🧩 Technologies Used
+## Visualization Legend
 
-- **Python 3**
-- **A\* Search Algorithm**
-- **Manhattan Distance Heuristic**
-- **pyamaze**
-- **Tkinter**
-- **heapq**
-- **time**
-- **Termux + Termux:X11** for Android-based development/testing
+| Marker | Meaning |
+|---|---|
+| 🔴 Red square | Start cell |
+| 🟢 Green square | Goal cell |
+| 🔵 Blue arrow | A* agent |
+| 🔵 Blue-marked cells | Cells explored during the search |
+| 🟡 Yellow-marked cells | Final optimal path |
+| ⚪ White footprints | Agent's movement trail along the final path |
 
 ---
 
-## 🧠 How A* Works
+## Requirements
 
-A\* evaluates each candidate cell using:
+- Python 3.x
+- [`pyamaze`](https://pypi.org/project/pyamaze/)
 
-```text
-f(n) = g(n) + h(n)
+## Installation
+
+```bash
+pip install pyamaze
+```
+
+## Usage
+
+```bash
+python astar_maze_solver.py
+```
+
+Running the script will:
+1. Generate a random maze with loops
+2. Run A* search from `START` to `GOAL`, printing each visited cell to the console
+3. Print a summary (status, path length, cells explored, execution time)
+4. Open a graphical window and animate the exploration, followed by the agent tracing the final path
+
+---
+
+## How It Works
+
+### 1. Maze Generation
+A `ROWS x COLS` maze is created with `pyamaze.maze()`, using `loopPercent=30` to introduce loops (multiple possible paths) rather than a single perfect-maze solution.
+
+### 2. A* Search (`astar`)
+- **Heuristic:** Manhattan distance — `|x1 - x2| + |y1 - y2|` — admissible for grid movement with no diagonals.
+- **Open list:** a min-heap keyed on `(f_score, insertion_counter, cell)`. The counter breaks ties deterministically and avoids comparing cell tuples directly.
+- **Closed set:** tracks fully-expanded cells to avoid reprocessing.
+- **g_score / came_from:** standard A* bookkeeping for path cost and path reconstruction.
+- **exploration_order:** every cell is appended here the moment it's popped off the open list — this list drives the visualization later.
+- When the goal is popped, the path is reconstructed by walking `came_from` backward from goal to start, then reversed.
+
+### 3. Neighbor Lookup (`get_neighbors`)
+Reads the `E`/`W`/`N`/`S` wall flags from `pyamaze`'s `maze_map` for a given cell and returns only the directions that are open (no wall).
+
+### 4. Visualization Pipeline
+Since `pyamaze` doesn't support step-by-step exploration animation natively, this project builds it manually on top of the Tkinter event loop:
+
+- `show_exploration(index)` recursively schedules itself via `m._win.after(EXPLORATION_DELAY, ...)`, revealing one more explored cell each call by updating `m.markCells`.
+- Once every explored cell has been shown, `start_agent_animation()` is scheduled, which calls `m.tracePath()` to animate the agent walking the final path with footprints (`showMarked=True` keeps the exploration markings visible underneath).
+
+This avoids manual `canvas.move()`/`coords()` calls entirely, relying on `pyamaze`'s built-in `tracePath()` for the final movement.
+
+---
+
+## Configuration
+
+All key parameters are defined at the top of the script:
+
+| Variable | Default | Description |
+|---|---|---|
+| `ROWS` | `10` | Number of maze rows |
+| `COLS` | `10` | Number of maze columns |
+| `START` | `(1, 1)` | Starting cell |
+| `GOAL` | `(10, 10)` | Goal cell |
+| `EXPLORATION_DELAY` | `180` ms | Delay between revealing each explored cell |
+| `FINAL_PATH_DELAY` | `700` ms | Delay between agent steps along the final path |
+
+Increase the delays to slow the animation down for presentations, or decrease them for a faster demo.
+
+---
+
+## Sample Console Output
+
+```
+============================================================
+                  A* SEARCH
+============================================================
+Visiting: (1, 1) | g = 0 | h = 18 | f = 18
+Visiting: (1, 2) | g = 1 | h = 17 | f = 18
+...
+Goal reached!
+
+============================================================
+                     RESULT
+============================================================
+Status         : SUCCESS
+Algorithm      : A*
+Start          : (1, 1)
+Goal           : (10, 10)
+Path length    : 18
+Cells explored : 42
+Execution time : 0.001532 sec
+Heuristic      : Manhattan
+
+Final A* Path
+----------------------------------------
+00 -> (1, 1)
+01 -> (1, 2)
+...
+```
+
+---
+
+## Project Structure
+
+```
+.
+└── astar_maze_solver.py   # Single-file implementation: maze setup, A* search, and visualization
+```
+
+## Time & Space Complexity
+
+- **Time:** `O(E log V)` in the worst case, where `V` is the number of cells and `E` the number of open passages, due to heap push/pop operations.
+- **Space:** `O(V)` for the open list, closed set, and score dictionaries.
+
+## Possible Improvements
+
+- Support diagonal movement (8-directional)
+- Swap in alternative heuristics (Euclidean, Chebyshev) for comparison
+- Add a live open-list/closed-list counter overlay in the GUI
+- Export the animation as a GIF/MP4
+- Parameterize maze size and delays via command-line arguments
+
+## License
+
+This project is open for personal and academic use.
