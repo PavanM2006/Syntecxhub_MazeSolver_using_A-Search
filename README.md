@@ -26,7 +26,6 @@ Built with [`pyamaze`](https://pypi.org/project/pyamaze/) for maze generation an
 | 🟢 Green square | Goal cell |
 | 🔵 Blue arrow | A* agent |
 | 🔵 Blue-marked cells | Cells explored during the search |
-| 🟡 Yellow-marked cells | Final optimal path |
 | ⚪ White footprints | Agent's movement trail along the final path |
 
 ---
