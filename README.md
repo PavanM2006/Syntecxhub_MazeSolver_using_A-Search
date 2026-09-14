@@ -314,9 +314,9 @@ Exploration Order
 Stores the sequence of explored cells so that the search can be visualized progressively.
 
 ---
+ Visualization Flow
 
-Visualization Flow
-
+```text
 ┌─────────────────────────────┐
 │       Generate Maze         │
 └──────────────┬──────────────┘
