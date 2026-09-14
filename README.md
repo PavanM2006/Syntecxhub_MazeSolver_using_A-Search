@@ -318,32 +318,32 @@ Stores the sequence of explored cells so that the search can be visualized progr
 Visualization Flow
 
 ┌──────────────────────────┐
-│      Generate Maze       │
+│      Generate Maze            │
+└────────────┬─────────────┘
+               │
+               ▼
+┌──────────────────────────┐
+│      Start A* Search          │
+└────────────┬─────────────┘
+               │
+               ▼
+┌──────────────────────────┐
+│ Calculate f(n) = g + h        │
 └────────────┬─────────────┘
              │
              ▼
 ┌──────────────────────────┐
-│      Start A* Search     │
+│ Select Best Candidate         │
 └────────────┬─────────────┘
              │
              ▼
 ┌──────────────────────────┐
-│ Calculate f(n) = g + h   │
-└────────────┬─────────────┘
-             │
-             ▼
-┌──────────────────────────┐
-│ Select Best Candidate    │
-└────────────┬─────────────┘
-             │
-             ▼
-┌──────────────────────────┐
-│ Explore Neighbour Cells  │
+│ Explore Neighbour Cells       │
 └────────────┬─────────────┘
              │
              ▼
        ┌─────────────┐
-       │ Goal Found? │
+       │ Goal Found?    │
        └──────┬──────┘
           No  │  Yes
           │   │
@@ -354,7 +354,7 @@ Visualization Flow
           └─────┤
                 ▼
        ┌──────────────────┐
-       │ Display Solution │
+       │ Display Solution.   │
        └──────────────────┘
 
 Project Structure
