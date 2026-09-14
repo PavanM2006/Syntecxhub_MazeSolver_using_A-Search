@@ -317,69 +317,77 @@ Stores the sequence of explored cells so that the search can be visualized progr
 
 Visualization Flow
 
-┌──────────────────────────┐
-│      Generate Maze            │
-└────────────┬─────────────┘
+┌─────────────────────────────┐
+│       Generate Maze         │
+└──────────────┬──────────────┘
                │
                ▼
-┌──────────────────────────┐
-│      Start A* Search          │
-└────────────┬─────────────┘
+┌─────────────────────────────┐
+│       Start A* Search       │
+└──────────────┬──────────────┘
                │
                ▼
-┌──────────────────────────┐
-│ Calculate f(n) = g + h        │
-└────────────┬─────────────┘
-             │
-             ▼
-┌──────────────────────────┐
-│ Select Best Candidate         │
-└────────────┬─────────────┘
-             │
-             ▼
-┌──────────────────────────┐
-│ Explore Neighbour Cells       │
-└────────────┬─────────────┘
-             │
-             ▼
-       ┌─────────────┐
-       │ Goal Found?    │
-       └──────┬──────┘
-          No  │  Yes
-          │   │
-          │   ▼
-          │ Reconstruct
-          │    Path
-          │     │
-          └─────┤
-                ▼
-       ┌──────────────────┐
-       │ Display Solution.   │
-       └──────────────────┘
+┌─────────────────────────────┐
+│    Calculate f(n) = g + h   │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│     Select Best Candidate   │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│    Explore Neighbour Cells  │
+└──────────────┬──────────────┘
+               │
+               ▼
+        ┌───────────────┐
+        │  Goal Found?  │
+        └───────┬───────┘
+                │
+          ┌─────┴─────┐
+          │           │
+         No          Yes
+          │           │
+          │           ▼
+          │    ┌───────────────┐
+          │    │ Reconstruct   │
+          │    │     Path      │
+          │    └───────┬───────┘
+          │            │
+          └────────────┤
+                       ▼
+              ┌──────────────────┐
+              │ Display Solution │
+              └──────────────────┘
+
+---
 
 Project Structure
 
 Syntecxhub_MazeSolver_using_A-Search/
 │
 ├── maze_test.py
-│
 ├── requirements.txt
-│
 ├── README.md
-│
 └── .gitignore
 
 "maze_test.py"
-Contains the Python implementation responsible for the maze-solving functionality and A* search process.
+
+Contains the Python implementation of the maze-solving system, including the A search logic and maze visualization*.
 
 "requirements.txt"
-Contains the Python dependencies required to run the project.
+
+Contains the Python packages required to install and run the project.
 
 "README.md"
-Contains project documentation, setup instructions, algorithm explanation, and implementation details.
+
+Provides complete project documentation, including the project overview, features, algorithm explanation, installation instructions, usage, and implementation details.
 
 ".gitignore"
-Specifies files and directories that should not be tracked by Git.
+
+Specifies files and directories that should be excluded from Git version control.
 
 ---
 
