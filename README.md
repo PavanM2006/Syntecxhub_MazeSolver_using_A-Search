@@ -231,7 +231,6 @@ The search process follows the following approach:
 Step 1 — Initialize Search
 
 The starting cell is inserted into the priority queue.
-
 The initial cost is:
 
 g(start) = 0
@@ -318,48 +317,48 @@ Stores the sequence of explored cells so that the search can be visualized progr
 
 ```text
 ┌─────────────────────────────┐
-│       Generate Maze         │
+│       Generate Maze              │
 └──────────────┬──────────────┘
-               │
-               ▼
+                  │
+                  ▼
 ┌─────────────────────────────┐
-│       Start A* Search       │
+│       Start A* Search            │
 └──────────────┬──────────────┘
-               │
-               ▼
+                  │
+                  ▼
 ┌─────────────────────────────┐
-│    Calculate f(n) = g + h   │
+│    Calculate f(n) = g + h        │
 └──────────────┬──────────────┘
-               │
-               ▼
+                  │
+                  ▼
 ┌─────────────────────────────┐
-│     Select Best Candidate   │
+│     Select Best Candidate        │
 └──────────────┬──────────────┘
-               │
-               ▼
+                  |
+                  ▼
 ┌─────────────────────────────┐
-│    Explore Neighbour Cells  │
+│    Explore Neighbour Cells       │
 └──────────────┬──────────────┘
-               │
-               ▼
+                  │
+                  ▼
         ┌───────────────┐
-        │  Goal Found?  │
+        │  Goal Found?     │
         └───────┬───────┘
-                │
+                 │
           ┌─────┴─────┐
-          │           │
-         No          Yes
-          │           │
-          │           ▼
+          │             │
+         No            Yes
+          │             │
+          │             ▼
           │    ┌───────────────┐
-          │    │ Reconstruct   │
-          │    │     Path      │
+          │    │ Reconstruct.     │
+          │    │     Path         │
           │    └───────┬───────┘
-          │            │
+          │              │
           └────────────┤
-                       ▼
+                         ▼
               ┌──────────────────┐
-              │ Display Solution │
+              │ Display Solution.   │
               └──────────────────┘
 
 ---
@@ -412,7 +411,6 @@ pip install pyamaze
 ---
 
 Running the Project
-
 Run the Python source file included in the repository:
 
 python maze_test.py
